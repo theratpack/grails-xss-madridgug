@@ -31,13 +31,13 @@
     \vspace{.5cm}
 
     \begin{center}
-      \Huge \#1: Built-in default codec \\
-      \visible<2>{\handwritten{is none!}}
+      \Huge\color{red} \#1: Built-in default codec \\
+      \visible<3>{\handwritten{is none!}}
     \end{center}
 
     \vspace{1cm}
 
-    \begin{onlyenv}<1>
+    \begin{onlyenv}<2>
     \begin{center}
       \begin{minipage}{.9\textwidth}
         \begin{minted}[fontsize=\large,bgcolor=srcbg]{java}
@@ -47,7 +47,7 @@ grails.views.default.codec
     \end{center}
     \end{onlyenv}
 
-    \begin{onlyenv}<2>
+    \begin{onlyenv}<3>
     \begin{center}
       \begin{minipage}{.9\textwidth}
         \begin{minted}[fontsize=\large,bgcolor=srcbg]{java}
@@ -64,7 +64,7 @@ grails.views.default.codec = ''none''
     \vspace{.5cm}
 
     \begin{center}
-      \Huge \#1: Built-in default codec \\
+      \Huge\color{red} \#1: Built-in default codec \\
       \handwritten{is none!}
     \end{center}
 
@@ -104,7 +104,7 @@ encodeAsURL()
     \vspace{.5cm}
 
     \begin{center}
-      \Huge \#1: Built-in default codec \\
+      \Huge\color{red} \#1: Built-in default codec \\
       \handwritten{is none!}
     \end{center}
 
@@ -136,7 +136,7 @@ grails.views.default.codec = ''html''
   \vspace{.5cm}
 
   \begin{center}
-    \Huge \#2: Inconsistent behaviour
+    \Huge\color{red} \#2: Inconsistent behaviour
   \end{center}
 
   \vspace{1cm}
@@ -181,7 +181,7 @@ grails.views.default.codec = ''html''
   \vspace{.5cm}
 
   \begin{center}
-    \Huge \#3: Tag output is not escaped
+    \Huge\color{red} \#3: Tag output is not escaped
   \end{center}
 
   \vspace{1cm}
@@ -224,7 +224,7 @@ grails.views.default.codec = ''html''
   \vspace{.5cm}
 
   \begin{center}
-    \Huge \#3: Tag output is not escaped
+    \Huge\color{red} \#3: Tag output is not escaped
   \end{center}
 
   \vspace{1cm}
@@ -257,7 +257,7 @@ g.message(...).encodeAsHTML()
   \vspace{.5cm}
 
   \begin{center}
-    \Huge \#4: g:message doesn't escape arguments
+    \Huge\color{red} \#4: g:message doesn't escape arguments
   \end{center}
 
   \vspace{1cm}
@@ -289,7 +289,7 @@ where:
   \vspace{.5cm}
 
   \begin{center}
-    \Huge \#4: g:message doesn't escape arguments
+    \Huge\color{red} \#4: g:message doesn't escape arguments
   \end{center}
 
   \vspace{1cm}
@@ -328,7 +328,7 @@ ${g.message(code:'welcome', args:[params.user])}
     \vspace{.5cm}
 
     \begin{center}
-      \Huge \#5: One codec is not enough
+      \Huge\color{red} \#5: One codec is not enough
     \end{center}
 
     \vspace{1cm}
@@ -355,7 +355,7 @@ ${g.message(code:'welcome', args:[params.user])}
     \vspace{.5cm}
 
     \begin{center}
-      \Huge \#5: One codec is not enough
+      \Huge\color{red} \#5: One codec is not enough
     \end{center}
 
     \vspace{1cm}
@@ -388,7 +388,7 @@ ${g.message(code:'welcome', args:[params.user])}
     \vspace{.5cm}
 
     \begin{center}
-      \Huge \#5: One codec is not enough
+      \Huge\color{red} \#5: One codec is not enough
     \end{center}
 
     \vspace{1cm}
@@ -427,7 +427,7 @@ ${g.message(code:'welcome', args:[params.user])}
 \begin{frame}[plain,fragile]
 
     \begin{center}
-      \Huge \#1: New configuration more \emph{secure by default}
+      \Huge\color{green} \#1: New configuration more \emph{secure by default}
     \end{center}
 
 \end{frame}
@@ -435,7 +435,7 @@ ${g.message(code:'welcome', args:[params.user])}
 \begin{frame}[plain,fragile]
 
     \begin{center}
-      \Huge \#1: New configuration more security by default
+      \Huge\color{green} \#1: New configuration more security by default
     \end{center}
 
     \begin{center}
@@ -470,7 +470,7 @@ grails {
 \begin{frame}[plain,fragile]
 
     \begin{center}
-      \Huge \#2: Finer-grained control of codecs
+      \Huge\color{green} \#2: Finer-grained control of codecs
     \end{center}
 
     \vspace{1cm}
@@ -536,7 +536,7 @@ static encodeAsForTags = [tagName: 'HTML']
 \begin{frame}[plain,fragile]
 
     \begin{center}
-      \Huge \#3: Context-sensitive encoding switching
+      \Huge\color{green} \#3: Context-sensitive encoding switching
     \end{center}
 
     \vspace{1cm}
@@ -569,7 +569,7 @@ out.println '</script>'
 \begin{frame}[plain,fragile]
 
     \begin{center}
-      \Huge \#4: Raw output
+      \Huge\color{green} \#4: Raw output
     \end{center}
 
     \vspace{1cm}
@@ -595,7 +595,7 @@ ${raw(book.title)}
 \begin{frame}[plain,fragile]
 
     \begin{center}
-      \Huge \#5: Default encoding for all output
+      \Huge\color{green} \#5: Default encoding for all output
     \end{center}
 
     \vspace{1cm}

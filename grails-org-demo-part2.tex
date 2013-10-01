@@ -84,7 +84,7 @@
   \end{onlyenv}
 
   \begin{onlyenv}<3>
-    3. Exploit successes and executes the payload\ldots
+    3. Exploit works and executes the payload\ldots
     \begin{center}
       \pgfuseimage{open-meterpreter-session}
     \end{center}
@@ -156,9 +156,38 @@
 %\subsection{You're a zombie in my BotNet}
 \subsection{Wake up! The matrix has you.}
 
+{
+\setbeamertemplate{background canvas}{\pgfuseimage{zombies}}
 \begin{frame}[plain]
+    \Huge\bfseries
+    \vspace{2cm}
+    \color{white}
+    \begin{minipage}{.7\textwidth}
+      Welcome to the\\ horde of\\ zombies
+    \end{minipage}
+\end{frame}
+}
+
+\begin{frame}[plain]
+  \begin{center}
+    \LARGE\bfseries
+    Joining to a botnet
+  \end{center}
+
+  \vspace{.5cm}
+
+  \begin{onlyenv}<1>
+    1. Install the malware\ldots
     \begin{center}
-      \Huge\bfseries
-      Joining to the horde of zombies in a BotNet
+      \pgfuseimage{install-malware}
     \end{center}
+  \end{onlyenv}
+
+  \begin{onlyenv}<2>
+    2. Welcome to my botnet\ldots
+    \begin{center}
+      \pgfuseimage{botnet-panel}
+    \end{center}
+  \end{onlyenv}
+
 \end{frame}
