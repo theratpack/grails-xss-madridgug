@@ -58,16 +58,28 @@
 \pgfdeclareimage[width=.6cm]{grails-logo}{images/grails-logo}
 \pgfdeclareimage[width=1.5cm]{madridgug-logo}{images/madridgug}
 \pgfdeclareimage[width=\paperwidth, height=\paperheight]{hieroglyphs}{images/3996794712_37fc0788aa_o.jpg}
+\pgfdeclareimage[width=\paperwidth, height=\paperheight]{grails-org-defacement}{images/grails-org-defacement}
+\pgfdeclareimage[width=.9\textwidth]{grails-org-defacement-medium}{images/grails-org-defacement}
+\pgfdeclareimage[width=\paperwidth, height=\paperheight]{white-rabbit}{images/5849593440_4bc8d03325_o.jpg}
+\pgfdeclareimage[width=.9\textwidth]{hooked-browsers}{images/hooked-browsers-beef}
+\pgfdeclareimage[width=.9\textwidth]{preparing-exploit-server}{images/preparing-exploit-server}
+\pgfdeclareimage[width=.9\textwidth]{injecting-invisible-frame}{images/injecting-invisible-frame}
+\pgfdeclareimage[width=.9\textwidth]{open-meterpreter-session}{images/open-meterpreter-session}
+\pgfdeclareimage[width=.5\textwidth]{notepad-process}{images/notepad-process}
+\pgfdeclareimage[width=.9\textwidth]{remote-shell}{images/remote-shell}
+\pgfdeclareimage[width=.9\textwidth]{keylogging}{images/keylogging}
+\pgfdeclareimage[width=.9\textwidth]{vnc}{images/vnc}
+\pgfdeclareimage[width=.9\textwidth]{vnc-tightvnc}{images/vnc-tightvnc}
 
 % If you want the table of contents to pop up at the beginning of each
 % section:
-\AtBeginSection[]
-{
-{
-  \begin{frame}<beamer>[plain]{Contents}
-    \tableofcontents[currentsection,hideallsubsections]
-  \end{frame}}
-}
+%\AtBeginSection[]
+%{
+%{
+%  \begin{frame}<beamer>[plain]{Contents}
+%    \tableofcontents[currentsection,hideallsubsections]
+%  \end{frame}}
+%}
 
 % If you wish to uncover everything in a step-wise fashion, uncomment
 % the following command:
@@ -94,9 +106,10 @@
 % Contents
 
 \include{cover}
-%\include{demo-grails-1}
-%\include{ill}
-%\include{demo-grails-2}
+\include{grails-org-demo-part1}
+\include{xss-intro}
+\include{grails-org-demo-part2}
+
 %\include{responsibility}
 \include{grails-encoding}
 %\include{demo-javamelody}
