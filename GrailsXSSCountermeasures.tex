@@ -1,0 +1,107 @@
+% ====================================================================
+%
+% XSS Countermeasures in Grails.
+%
+% 1/10/2013 at Madrid GUG
+%
+% by The Rat Pack (Rafael Luque and Jose San Leandro)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+
+\usetheme[coverbackgroundimage=images/6144568756_764c08d72c_o]{osoco2012}
+
+\usepackage[english]{babel}
+% or whatever. E.g. For English papers:
+% \usepackage[english]{babel}
+
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{multimedia}
+\usepackage{hyperref}
+\usepackage{listings}
+
+%% Presentation specific packages
+\usepackage{pbsi}  % BrushScriptX-Italic font
+\usepackage{fancybox}
+\usepackage{soul}
+\usepackage{color}
+\usepackage{minted}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes}
+
+%% Paper Metadata
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{XSS Countermeasures in Grails}
+%% \subtitle{An introduction for Java developers}
+\author{
+  Rafael Luque \href{http://twitter.com/rafael_luque}{@rafael\_luque} --- \href{http://osoco.es}{\bfseries OSOCO}\\
+  José San Leandro \href{http://twitter.com/rydnr}{@rydnr} --- \href{http://www.ventura24.es}{\bfseries Ventura24}\
+}
+\institute{%
+  \pgfuseimage{madridgug-logo}
+}
+\date[10/2013]{October 2013}
+\subject{Grails XSS prevention}
+\keywords{Grails, XSS, security, exploit, botnet}
+
+% Graphics
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% An image declaration
+% E.g. by-nc-sa Creative Commons icon
+% \pgfdeclareimage[width=2cm]{by-nc-sa}{images/by-nc-sa}
+
+\pgfdeclareimage[width=.6cm]{grails-logo}{images/grails-logo}
+\pgfdeclareimage[width=1.5cm]{madridgug-logo}{images/madridgug}
+\pgfdeclareimage[width=\paperwidth, height=\paperheight]{hieroglyphs}{images/3996794712_37fc0788aa_o.jpg}
+
+% If you want the table of contents to pop up at the beginning of each
+% section:
+\AtBeginSection[]
+{
+{
+  \begin{frame}<beamer>[plain]{Contents}
+    \tableofcontents[currentsection,hideallsubsections]
+  \end{frame}}
+}
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command:
+
+%\beamerdefaultoverlayspecification{<+->}
+
+\setbeamertemplate{background}{}  %% Don't use OSOCO frame background
+
+% Custom commands and configurations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\handwritten}[1]{{\bsifamily\color{red}#1}}
+
+\renewcommand{\theFancyVerbLine}{\sffamily \textcolor[rgb]{0.5,0.5,1.0}{\tiny \oldstylenums{\arabic{FancyVerbLine}}}}
+\definecolor{srcbg}{rgb}{0.98,0.98,0.98}
+\usemintedstyle{trac}
+
+% Document contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\tikzstyle{every picture}+=[remember picture]
+
+% Contents
+
+\include{cover}
+%\include{demo-grails-1}
+%\include{ill}
+%\include{demo-grails-2}
+%\include{responsibility}
+\include{grails-encoding}
+%\include{demo-javamelody}
+%\include{solutions}
+%\include{conclusions}
+\include{credits}
+
+\end{document}

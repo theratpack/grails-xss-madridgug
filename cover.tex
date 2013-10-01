@@ -1,0 +1,67 @@
+%% Title Page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[plain]
+  %%\titlepage
+
+  \vskip-1pt
+
+  \hbox{\hskip-1cm
+    \begin{tikzpicture}
+	  \useasboundingbox (0,0) rectangle (\the\paperwidth, \the\paperheight) ;
+	  \pgftext[at=\pgfpoint{0cm}{0cm},left,base]{\pgfuseimage{coverBackgroundImage}} ;
+    \end{tikzpicture}
+  }
+
+  \vskip-1\paperheight
+
+  % Title
+  \usebeamercolor[fg]{title in cover}
+  \hbox{\hskip-.01\paperwidth
+    \vbox{
+      \vskip.1\paperheight
+      \usebeamerfont{title}\Huge\inserttitle\par
+    }
+  }
+
+  % The optional subtitle
+  \ifx\insertsubtitle\vskip0pt plus 1filll\else%
+  \hbox{\hskip-.01\paperwidth
+    \vbox{
+      \vskip.05\paperheight
+      \usebeamerfont{subtitle}\insertsubtitle\par
+    }
+  }
+  \fi
+
+  % Grails logo
+  \vskip.24\paperheight
+  \hbox{\hskip2.5cm
+    \begin{pgfpicture}
+      \pgflowlevel{\pgftransformrotate{62}}
+      \pgfuseimage{grails-logo}
+    \end{pgfpicture}
+  }
+
+  \vskip.25\paperheight
+
+  % Author
+  \ifx\insertauthor\@empty\else%
+  \hbox{\hskip-.01\paperwidth
+    \vbox{
+      \usebeamerfont{author}\insertauthor\par
+    }
+  }
+  \fi
+
+  % Institution
+  \ifx\insertinstitute\@empty\else%
+  \vskip-0.17\paperheight%
+  \hbox{\hskip.75\paperwidth
+    \vbox{
+      \usebeamerfont{institute}\insertinstitute\par
+    }
+  }
+  \fi
+
+  \vskip0pt plus 1filll
+\end{frame}

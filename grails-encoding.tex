@@ -1,0 +1,635 @@
+% Grails encoding
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Understanding Grails encoding}
+
+{
+\setbeamertemplate{background canvas}{\pgfuseimage{hieroglyphs}}
+\begin{frame}[plain]
+    \Huge\bfseries
+    \vspace{-3.5cm}
+    \begin{flushright}\color{white}Understanding Grails Encoding\end{flushright}
+\end{frame}
+}
+
+% Grails pre-2.3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Grails pre-2.3}
+
+\begin{frame}[plain]
+    \begin{center}
+      \Huge\bfseries
+      Grails Pre-2.3 Gotchas
+    \end{center}
+\end{frame}
+
+% Gotcha-1: Built-in default codec is none!
+
+\begin{frame}[plain,fragile]
+
+    \vspace{.5cm}
+
+    \begin{center}
+      \Huge \#1: Built-in default codec \\
+      \visible<2>{\handwritten{is none!}}
+    \end{center}
+
+    \vspace{1cm}
+
+    \begin{onlyenv}<1>
+    \begin{center}
+      \begin{minipage}{.9\textwidth}
+        \begin{minted}[fontsize=\large,bgcolor=srcbg]{java}
+grails.views.default.codec
+        \end{minted}
+      \end{minipage}
+    \end{center}
+    \end{onlyenv}
+
+    \begin{onlyenv}<2>
+    \begin{center}
+      \begin{minipage}{.9\textwidth}
+        \begin{minted}[fontsize=\large,bgcolor=srcbg]{java}
+grails.views.default.codec = ''none''
+        \end{minted}
+      \end{minipage}
+    \end{center}
+    \end{onlyenv}
+
+\end{frame}
+
+\begin{frame}[plain,fragile]
+
+    \vspace{.5cm}
+
+    \begin{center}
+      \Huge \#1: Built-in default codec \\
+      \handwritten{is none!}
+    \end{center}
+
+    \vspace{1cm}
+
+    \Large
+    \textbf{Problems} \\[1em]
+
+    \begin{onlyenv}<1>
+      You have to escape explicitly every untrusted data:
+      \begin{center}
+        \begin{minipage}{.9\textwidth}
+          \begin{minted}[fontsize=\large,bgcolor=srcbg]{java}
+encodeAsHTML()
+encodeAsJavaScript()
+encodeAsURL()
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \begin{onlyenv}<2>
+      High likelihood of XSS vulnerabilities in production.\\[1em]
+      E.g. Grails.org website.
+    \end{onlyenv}
+
+    \begin{onlyenv}<3>
+      Double-encoding prevention over \emph{Security by default}.
+    \end{onlyenv}
+
+    \vfill
+
+\end{frame}
+
+\begin{frame}[plain,fragile]
+
+    \vspace{.5cm}
+
+    \begin{center}
+      \Huge \#1: Built-in default codec \\
+      \handwritten{is none!}
+    \end{center}
+
+    \vspace{1cm}
+
+    \Large
+    \textbf{Solution} \\[1em]
+
+    \begin{onlyenv}<1>
+      Change default codec to HTML:
+      \begin{center}
+        \begin{minipage}{.9\textwidth}
+          \begin{minted}[fontsize=\large,bgcolor=srcbg]{java}
+grails.views.default.codec = ''html''
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \vfill
+
+\end{frame}
+
+% Gotcha-2: Inconsistent behaviour
+
+\begin{frame}[plain,fragile]
+
+  \tikzstyle{na} = [baseline=-.5ex]
+  \vspace{.5cm}
+
+  \begin{center}
+    \Huge \#2: Inconsistent behaviour
+  \end{center}
+
+  \vspace{1cm}
+
+  \begin{columns}
+    \column{.5\textwidth}
+    \tikz[baseline]{%
+      \node[fill=green!20,ellipse,anchor=base] (b1)
+           {Apply codec};
+    }
+    \column{.5\textwidth}
+    \tikz[baseline]{%
+      \node[fill=red!20,ellipse,anchor=base] (b2)
+           {Does not apply codec};
+    }
+  \end{columns}
+
+  \vspace{1cm}
+
+  \begin{itemize}[<+-| alert@+>]
+    \item GSP EL: \verb|${...}| \tikz[na] \node[coordinate] (a1) {};
+    \item Tag: \verb|<g:tag .../>| \tikz[na] \node[coordinate] (a2) {};
+    \item GSP EL in tag attribute: \verb|<g:tag a="${...}"/>| \tikz[na] \node[coordinate] (a3) {};
+    \item Tag as a method: \verb|${g.tag(...)}| \tikz[na] \node[coordinate] (a4) {};
+    \item Scriptlets: \verb|<%= ... %>| \tikz[na] \node[coordinate] (a5) {};
+  \end{itemize}
+
+  \begin{tikzpicture}[overlay]
+    \path[->,green,line width=1.5pt]<2-> (a1) edge [out=90, in=-90] (b1);
+    \path[->,red,line width=1.5pt]<3-> (a2) edge [out=0, in=-150] (b2);
+    \path[->,red,line width=1.5pt]<4-> (a3) edge [out=0, in=-30] (b2);
+    \path[->,green,line width=1.5pt]<5-> (a4) edge [out=45, in=0] (b1);
+    \path[->,red,line width=1.5pt]<6-> (a5) edge [out=-15, in=-90] (b2);
+  \end{tikzpicture}
+
+\end{frame}
+
+% Gotcha-3: Tag output is not escaped
+
+\begin{frame}[plain,fragile]
+
+  \vspace{.5cm}
+
+  \begin{center}
+    \Huge \#3: Tag output is not escaped
+  \end{center}
+
+  \vspace{1cm}
+
+    \Large
+    \textbf{Problems} \\[1em]
+
+    \begin{onlyenv}<1>
+      Review the tags you use to make sure they encode their output
+      or have options for this (e.g. \verb|encodeAs| attribute).
+    \end{onlyenv}
+
+    \begin{onlyenv}<2>
+      Review the tags from plugins you use.
+    \end{onlyenv}
+
+    \begin{onlyenv}<3>
+      Review the tags you invoke as methods in Controllers.
+    \end{onlyenv}
+
+    \begin{onlyenv}<4>
+      Don't trust Grails core tags, they have inconsistent behaviour. E.g:
+      \begin{center}
+        \begin{minipage}{.9\textwidth}
+          \begin{minted}[fontsize=\large,bgcolor=srcbg]{java}
+<g:fieldValue /> // HTML-encoded
+<g:message />    // NO HTML-encoded
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \vfill
+
+\end{frame}
+
+
+\begin{frame}[plain,fragile]
+
+  \vspace{.5cm}
+
+  \begin{center}
+    \Huge \#3: Tag output is not escaped
+  \end{center}
+
+  \vspace{1cm}
+
+    \Large
+    \textbf{Solutions} \\[1em]
+
+    \begin{onlyenv}<1>
+      If tag implementation doesn't encode, add it explicitly or invoke it as a method inside a GSP expression:
+      \begin{center}
+        \begin{minipage}{.9\textwidth}
+          \begin{minted}[fontsize=\large,bgcolor=srcbg]{java}
+<g:message ... encodeAs=''HTML''/>
+${g.message(...)}
+g.message(...).encodeAsHTML()
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \vfill
+
+\end{frame}
+
+
+%% Gotcha-4: GRAILS-7170
+
+\begin{frame}[plain,fragile]
+
+  \vspace{.5cm}
+
+  \begin{center}
+    \Huge \#4: g:message doesn't escape arguments
+  \end{center}
+
+  \vspace{1cm}
+
+    \Large
+    \textbf{Problems} \\[1em]
+
+    \begin{onlyenv}<1>
+      With default codec set to HTML the following XSS attack vector works:
+      \begin{center}
+        \begin{minipage}{.9\textwidth}
+          \begin{minted}[fontsize=\footnotesize,bgcolor=srcbg]{java}
+<g:message code='welcome' args='[params.user]'/>
+
+where:
+   welcome = Hi {0}!
+   params.user = <script>alert('pwnd')</script>
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \vfill
+
+\end{frame}
+
+\begin{frame}[plain,fragile]
+
+  \vspace{.5cm}
+
+  \begin{center}
+    \Huge \#4: g:message doesn't escape arguments
+  \end{center}
+
+  \vspace{1cm}
+
+    \Large
+    \textbf{Solutions} \\[1em]
+
+    \begin{onlyenv}<1>
+      Upgrade to a Grails version with the issue (GRAILS-7170) fixed: \\[1em]
+      2.0.5, 2.1.5, 2.2.2, 2.3-M1
+    \end{onlyenv}
+
+    \begin{onlyenv}<2>
+      Escape explicitly or invoke the tag inside a GSP expression:
+      \begin{center}
+        \begin{minipage}{.9\textwidth}
+          \begin{minted}[fontsize=\footnotesize,bgcolor=srcbg]{java}
+<g:message code='welcome' args='[params.user]'
+    encodeAs='HTML'/>
+
+${g.message(code:'welcome', args:[params.user])}
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \vfill
+
+\end{frame}
+
+
+% Gotcha-5: One codec is not enough
+
+\begin{frame}[plain,fragile]
+
+    \vspace{.5cm}
+
+    \begin{center}
+      \Huge \#5: One codec is not enough
+    \end{center}
+
+    \vspace{1cm}
+
+    \begin{onlyenv}<1>
+      You MUST use the escape syntax for the context of the HTML document you're putting untrusted data into:
+      \begin{itemize}
+        \item HTML
+        \item JavaScript
+        \item URL
+        \item CSS
+      \end{itemize}
+    \end{onlyenv}
+
+    \begin{onlyenv}<2>
+      \textbf{HTML entity encoding doesn't work} if you're using untrusted data inside a <script>, or an event handler attribute like onmouseover, or inside CSS, or in a URL.
+    \end{onlyenv}
+
+\end{frame}
+
+
+\begin{frame}[plain,fragile]
+
+    \vspace{.5cm}
+
+    \begin{center}
+      \Huge \#5: One codec is not enough
+    \end{center}
+
+    \vspace{1cm}
+
+    \Large
+    \textbf{Problems} \\[1em]
+
+    \begin{onlyenv}<1>
+      You can override the default codec for a page, but not to switch the codec for each context:
+      \begin{center}
+        \begin{minipage}{.9\textwidth}
+          \begin{minted}[fontsize=\large,bgcolor=srcbg]{java}
+<%@page defaultCodec='CODEC' %>
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \begin{onlyenv}<2>
+      How to manage GSPs with mixed encoding requirements?
+    \end{onlyenv}
+
+    \vfill
+
+\end{frame}
+
+
+\begin{frame}[plain,fragile]
+
+    \vspace{.5cm}
+
+    \begin{center}
+      \Huge \#5: One codec is not enough
+    \end{center}
+
+    \vspace{1cm}
+
+    \Large
+    \textbf{Solutions} \\[1em]
+
+    \begin{onlyenv}<1>
+      Turn off default codec for that page and use \verb|encodeAsJavaScript()|
+      and \verb|encodeAsHTML()| explicitly everywhere.
+    \end{onlyenv}
+
+    \begin{onlyenv}<2>
+      Extract the JavaScript fragment to a GSP tag encoding as JavaScript.
+    \end{onlyenv}
+
+    \vfill
+
+\end{frame}
+
+
+% Grails 2.3 encoding
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Grails 2.3}
+
+\begin{frame}[plain]
+    \begin{center}
+      \Huge\bfseries
+      Grails 2.3 Encoding Enhancements
+    \end{center}
+\end{frame}
+
+% Enhancement-1: New configuration more security by default
+
+\begin{frame}[plain,fragile]
+
+    \begin{center}
+      \Huge \#1: New configuration more \emph{secure by default}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}[plain,fragile]
+
+    \begin{center}
+      \Huge \#1: New configuration more security by default
+    \end{center}
+
+    \begin{center}
+      \begin{minipage}{1.1\textwidth}
+        \begin{minted}[fontsize=\scriptsize,bgcolor=srcbg]{java}
+grails {
+  views {
+    gsp {
+      encoding = 'UTF-8'
+      htmlcodec = 'xml' // use xml escaping instead of HTML4
+      codecs {
+        expression = 'html' // escapes values inside ${}
+        scriptlet = 'html' // escapes output from scriptlets in GSPs
+        taglib = 'none' // escapes output from taglibs
+        staticparts = 'none' // escapes output from static templates
+      }
+    }
+    // escapes all not-encoded output at final stage of outputting
+    filteringCodecForContentType {
+      //'text/html' = 'html'
+    }
+  }
+}
+        \end{minted}
+      \end{minipage}
+    \end{center}
+
+\end{frame}
+
+% Enhancement-2: Finer-grained control of codecs
+
+\begin{frame}[plain,fragile]
+
+    \begin{center}
+      \Huge \#2: Finer-grained control of codecs
+    \end{center}
+
+    \vspace{1cm}
+
+    \begin{onlyenv}<1>
+      Control the codecs used per plugin:
+      \begin{center}
+        \begin{minipage}{\textwidth}
+          \begin{minted}[fontsize=\scriptsize,bgcolor=srcbg]{java}
+pluginName.grails.views.gsp.codecs.expression = 'CODEC'
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \begin{onlyenv}<2>
+      Control the codecs used per page:
+      \begin{center}
+        \begin{minipage}{\textwidth}
+          \begin{minted}[fontsize=\normalsize,bgcolor=srcbg]{java}
+<%@ expressionCodec='CODEC' %>
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \begin{onlyenv}<3>
+      Control the default codec used by a tag library:
+      \begin{center}
+        \begin{minipage}{\textwidth}
+          \begin{minted}[fontsize=\normalsize,bgcolor=srcbg]{java}
+static defaultEncodeAs = 'HTML'
+          \end{minted}
+        \end{minipage}
+      \end{center}
+
+      Or on a per tag basis:
+      \begin{center}
+        \begin{minipage}{\textwidth}
+          \begin{minted}[fontsize=\normalsize,bgcolor=srcbg]{java}
+static encodeAsForTags = [tagName: 'HTML']
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \begin{onlyenv}<4>
+      Add support for an optional \verb|encodeAs| attribute to all tags automatically:
+      \begin{center}
+        \begin{minipage}{\textwidth}
+          \begin{minted}[fontsize=\normalsize,bgcolor=srcbg]{java}
+<my:tag arg='foo.bar' encodeAs='JavaScript'/>
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+\end{frame}
+
+
+% Enhancement-3: Context-sensitive encoding switching
+
+\begin{frame}[plain,fragile]
+
+    \begin{center}
+      \Huge \#3: Context-sensitive encoding switching
+    \end{center}
+
+    \vspace{1cm}
+
+    \begin{onlyenv}<1>
+      Tag \verb|withCodec('CODEC', Closure)| to switch the current default codec, pushing and popping a default codec stack.
+      \begin{center}
+        \begin{minipage}{\textwidth}
+          \begin{minted}[fontsize=\normalsize,bgcolor=srcbg]{java}
+out.println '<script type=''text/javascript''>'
+withCodec(``JavaScript'') {
+    out << body()
+}
+out.println()
+out.println '</script>'
+          \end{minted}
+        \end{minipage}
+      \end{center}
+    \end{onlyenv}
+
+    \begin{onlyenv}<2>
+      Core tags like \verb|<g:javascript/>| and \verb|<r:script/>| automatically set an appropriate codec.
+    \end{onlyenv}
+
+\end{frame}
+
+
+% Enhancement-4: Raw oputput
+
+\begin{frame}[plain,fragile]
+
+    \begin{center}
+      \Huge \#4: Raw output
+    \end{center}
+
+    \vspace{1cm}
+
+    \begin{onlyenv}<1>
+      When you do not wish to encode a value, you can use the \verb|raw()| method.
+      \begin{center}
+        \begin{minipage}{\textwidth}
+          \begin{minted}[fontsize=\normalsize,bgcolor=srcbg]{java}
+${raw(book.title)}
+          \end{minted}
+        \end{minipage}
+      \end{center}
+
+      It's available in GSPs, controllers and tag libraries.
+    \end{onlyenv}
+
+\end{frame}
+
+
+% Enhancement-5:
+
+\begin{frame}[plain,fragile]
+
+    \begin{center}
+      \Huge \#5: Default encoding for all output
+    \end{center}
+
+    \vspace{1cm}
+
+    \begin{onlyenv}<1>
+      You can configure Grails to encode all output at the end of a response.
+    \end{onlyenv}
+
+    \begin{onlyenv}<2>
+      \begin{center}
+        \begin{minipage}{1.1\textwidth}
+          \begin{minted}[fontsize=\scriptsize,bgcolor=srcbg]{java}
+grails {
+  views {
+    gsp {
+      codecs {
+        expression = 'html' // escapes values inside ${}
+        scriptlet = 'html' // escapes output from scriptlets in GSPs
+        taglib = 'none' // escapes output from taglibs
+        staticparts = 'raw' // escapes output from static templates
+      }
+    }
+    // escapes all not-encoded output at final stage of outputting
+    filteringCodecForContentType {
+      'text/html' = 'html'
+    }
+  }
+}
+          \end{minted}
+        \end{minipage}
+      \end{center}
+
+      If activated, the \verb|staticparts| codec needs to be set to raw so
+      that static markup is not encoded.
+    \end{onlyenv}
+
+\end{frame}

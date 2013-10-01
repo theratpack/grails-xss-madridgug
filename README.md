@@ -1,0 +1,1 @@
+"XSS Countermeasures in Grails" talk at Madrid GUG.
