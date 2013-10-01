@@ -1,0 +1,29 @@
+% Grails Plugins Security
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Grails Plugins Security}
+
+\begin{frame}[plain]
+    \begin{center}
+      \Huge\bfseries
+      Check your Plugins security
+    \end{center}
+\end{frame}
+
+\begin{frame}[plain]{Plugins are also part of your application}
+  \begin{itemize}[<+-| alert@+>]
+    \item Grails plugins are not security audited
+    \item Grails plugins are part of your application's attack surface
+    \item Review plugins to make sure they encode, and if they don't you should JIRA the authors immediately, and fork and patch to fix your app quickly.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[plain,fragile]{Demo: Javamelody vulnerability}
+  \begin{itemize}[<+-| alert@+>]
+    \item CVE-2013-4378 vulnerability reported.
+    \item Allows \textbf{blind XSS} attack via \verb|X-Forwarded-For| header spoofing.
+    \item The attack target is the admin's browser.
+    \item Fixed in the last release (1.47).
+    \item You should upgrade ASAP.
+  \end{itemize}
+\end{frame}
