@@ -1,0 +1,51 @@
+% Solutions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Solutions}
+
+\begin{frame}[plain]
+    \begin{center}
+      \Huge\bfseries
+      Solutions: What options do we have?
+    \end{center}
+\end{frame}
+
+\begin{frame}{Think like an attacker}
+  \begin{itemize}[<+-| alert@+>]
+    \item According to your grails version
+    \item Find unescaped values
+    \item Use fuzzers
+    \item Read and understand Samy code
+    \item Review OWASP XSS cheatsheets
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Be aware}
+  \begin{itemize}[<+-| alert@+>]
+    \item Review your Grails app to double-check how all dynamic content gets escaped
+    \item Monitor for suspicious traffic
+    \item Spread the knowledge
+    \item Adopt ZAP or similar fuzzers in your CI process
+    \item Review available security plugins for Grails
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Application firewalls}
+ \begin{itemize}[<+-| alert@+>]
+   \item Enable common, safe rules
+   \item Log unexpected traffic
+   \item Don't fool yourself
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{Early-adopt CSP}
+ \begin{itemize}[<+-| alert@+>]
+  \item CSP: Content Security Policy
+  \item Adds headers to disable default behavior
+   \begin{itemize}[<+-| alert@+>]
+     \item inline Javascript
+     \item dynamic code evaluation
+   \end{itemize}
+  \item Still a Candidate Recommendation of W3C
+ \end{itemize}
+\end{frame}
